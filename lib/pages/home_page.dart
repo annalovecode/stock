@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:stock/pages/search_page.dart';
-import 'package:stock/pages/search_page1.dart';
 
 class HomePage extends StatelessWidget{
   @override
@@ -11,11 +10,13 @@ class HomePage extends StatelessWidget{
 
        appBar: AppBar(
          title: const Text('Stock'),
+
            centerTitle: true,
          backgroundColor: Color.fromARGB(255,144, 34, 160),
            actions: <Widget>[
        IconButton(
        icon: Icon(Icons.search),
+
        onPressed: () async {
          final toDo = await showSearch<ToDo>(
            context: context,
@@ -25,6 +26,7 @@ class HomePage extends StatelessWidget{
        ),]
 
        ),
+
      body:Stack(children: <Widget>[
        Container(
          padding: EdgeInsets.all(10),

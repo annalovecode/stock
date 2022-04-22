@@ -36,8 +36,10 @@ dependencies:
   cupertino_icons: ^1.0.2
   english_words: ^4.0.0
   intl: ^0.17.0
-  http: ^0.12.0+2
-  dio: ^3.0.10
+  http: ^0.13.4
+  #flutter_webview_plugin: ^0.4.0
+#  dio: ^3.0.10
+  html: ^0.15.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

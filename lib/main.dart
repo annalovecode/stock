@@ -12,8 +12,18 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+
     return MaterialApp(
         title: 'stock',
+        theme: ThemeData(
+          primarySwatch: Colors.purple,
+          primaryColor: Colors.black,
+          textTheme: TextTheme(
+            // Use this to change the query's text style
+            headline6: TextStyle(fontSize: 25.0, color: Colors.white),
+          ),
+
+        ),
         home:
         HomePage()
     );

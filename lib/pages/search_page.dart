@@ -145,10 +145,10 @@ class ToDoSearchDelegate extends SearchDelegate<ToDo> {
                     //  onTap: () {
                     onTap: () async {
                       suggestion=suggestion.trim();
-                     // print(suggestion);
+                      print(suggestion);
                       List<String> s1 = suggestion.split('|');
                       String symbol = s1.first;
-                    //  print(symbol);
+                     print(symbol);
                       List<dynamic> a =await getDetail(symbol: symbol);
                      print(a.toString());
                      //  List lista = await a as List ;
@@ -254,10 +254,11 @@ Future<List<dynamic>> getDetail({required String symbol}) async {
   const authority = 'finnhub.io';
   const path = '/api/v1/stock/profile2';
   final queryParameters = {
-    'symbol': symbol,
+    'symbol': symbol.trim(),
     'token': kFinnhubKey,
   };
   final uri = Uri.https(authority, path, queryParameters);
+  print(uri);
   final result = await http.get(uri);
   try {
     if (result.statusCode == 200) {
@@ -282,10 +283,12 @@ Future<List<dynamic>> getPrice({required String symbol}) async {
   const authority = 'finnhub.io';
   const path = '/api/v1/quote';
   final queryParameters = {
-    'symbol': symbol,
+    'symbol': symbol.trim(),
     'token': kFinnhubKey,
   };
+  print(queryParameters);
   final uri = Uri.https(authority, path, queryParameters);
+  print(uri);
   final result = await http.get(uri);
   try {
     if (result.statusCode == 200) {

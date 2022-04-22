@@ -6,7 +6,7 @@ import 'package:stock/pages/api_keys.dart';
 import 'package:stock/pages/search_page.dart';
 import 'package:http/http.dart' as http;
 import 'package:meta/meta.dart';
-import 'dart:html' as html;
+// import 'dart:html' as html;
 
 class detail {
   String? country;
@@ -292,6 +292,7 @@ class DetailPageState extends State<DetailsPage>{
                                 style: TextStyle(color: Colors.grey,
                                   fontSize: 18,
                                 )),
+                              //html.window.open(a.first['weburl'].toString(),"");
                           )]),
                     Row(
                         children: [

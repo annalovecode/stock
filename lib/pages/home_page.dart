@@ -35,6 +35,7 @@ class HomePage extends StatefulWidget{
       user= User.decode(stringValue);
       return user;
     }
+
   @override
    Widget build(BuildContext context) {
     getStringValuesSF();
@@ -96,7 +97,7 @@ class HomePage extends StatefulWidget{
               color:Colors.white,
               fontSize:30)),
       Divider(
-        height: 40,
+        height: 20,
         color: Colors.grey[100],
       //  indent: 120,
       )])
@@ -112,6 +113,7 @@ class HomePage extends StatefulWidget{
 
         ))]));
   }
+
   Widget _containListView(){
 
       return
@@ -129,14 +131,55 @@ class HomePage extends StatefulWidget{
                   textColor: Colors.white,
                   title: Text("EMPTY"));
             }
+
             else{
-    return
-      ListTile(
+    return Dismissible(
+        // Each Dismissible must contain a Key. Keys allow Flutter to
+        // uniquely identify widgets.
+        key:  ObjectKey(user[index]),
+      // Provide a function that tells the app
+      // what to do after an item has been swiped away.
+      onDismissed: (direction) {
+        showDialog<String>(
+            context: context,
+            builder: (BuildContext context) => AlertDialog(
+              title: const Text('Delete Confirmation'),
+              content: const Text('Are you sure you want to delete this item?'),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context,'Delete');
+                    ScaffoldMessenger.of(context)
+                        .showSnackBar(SnackBar(content: Text('${user[index].name} dismissed')));
+                  },
+                  child: const Text('Delete'),
+                ),
+                TextButton(
+                  onPressed: () =>Navigator.pop(context, 'Cancel'),
+                  child: const Text('Cancel'),
+
+                ),
+
+              ],
+            ),
+      // Remove the item from the data source.
+     // setState(() {
+      //user.removeAt(index);
+
+    //  }
+            );
+    //  _alertButton();
+      // Then show a snackbar.
+
+      // ScaffoldMessenger.of(context)
+      //     .showSnackBar(SnackBar(content: Text('${user[index].name} dismissed')));
+      },
+      child:ListTile(
        textColor: Colors.white,
 
     title: Text("${user[index].name}"),
         subtitle: Text("${user[index].age}"),
-    );
+    ));
     }});
 
   }

@@ -87,7 +87,20 @@ save() async {
           child: IconButton(
             icon: (_isFavorited ? Icon(Icons.star) : Icon(Icons.star_border)),
               color: _isFavorited ? Colors.white : null,
-            onPressed: (){ _toggleFavorite(paira,pairb);}
+            onPressed: (){ _toggleFavorite(paira,pairb);
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  backgroundColor: Colors.white,
+                  content: Text(paira+'was added to watchlist'),
+                  // action: SnackBarAction(
+                  //   label: 'Action',
+                  //   onPressed: () {
+                  //     // Code to execute.
+                  //   },
+                //  ),
+                ),
+              );
+            },
           ),
         ),
         SizedBox(

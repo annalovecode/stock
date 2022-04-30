@@ -65,7 +65,11 @@ class Result {
   }
 }
 
-class ToDoSearchDelegate extends SearchDelegate<ToDo> {
+
+class ToDoSearchDelegate extends SearchDelegate<String> {
+  //Set<String> saved =Set<String>();
+  ToDoSearchDelegate();
+
   @override
   ThemeData appBarTheme(BuildContext context) {
     return ThemeData(
@@ -104,10 +108,11 @@ class ToDoSearchDelegate extends SearchDelegate<ToDo> {
           icon: Icon(Icons.clear),
           onPressed: () {
             if (query.isEmpty) {
-              Navigator.pop(context);
+              close(context, "");
+              //Navigator.pop(context);
             } else {
               query = '';
-              showSuggestions(context);
+             showSuggestions(context);
             }
           },
         )
@@ -119,7 +124,8 @@ class ToDoSearchDelegate extends SearchDelegate<ToDo> {
     return IconButton(
       icon: const Icon(Icons.arrow_back),
       onPressed: () {
-        Navigator.pop(context);
+        close(context,"");
+       // Navigator.pop(context);
       },
     );
   }
@@ -142,33 +148,33 @@ class ToDoSearchDelegate extends SearchDelegate<ToDo> {
                         color: Colors.white,
                         fontSize: 20,
                         fontWeight: FontWeight.bold)),
-                    //  onTap: () {
                     onTap: () async {
                       suggestion=suggestion.trim();
-                      print(suggestion);
+                    //  print(suggestion);
                       List<String> s1 = suggestion.split('|');
                       String symbol = s1.first;
-                     print(symbol);
+                   //  print(symbol);
                       List<dynamic> a =await getDetail(symbol: symbol);
-                     print(a.toString());
+                    // print(a.toString());
                      //  List lista = await a as List ;
                    //  print(a.toString());
-                      List<dynamic> b =await getPrice(symbol: symbol);
-                     print(b.toString());
-                     // List listb = await b ;
-//                       //String content= (listData[i].data as Data).articleContent;
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-//            builder: (context) => new NewsWebPage(h5_url,'新闻详情')));
-                              builder: (context) => DetailsPage(a,b)));
+                      Future<List<dynamic>> b= getPrice(symbol: symbol);
+                      List<dynamic> b1 =await b;
+
+
+
+                       Navigator.push(
+                           context,
+                           MaterialPageRoute(
+// //            builder: (context) => new NewsWebPage(h5_url,'新闻详情')));
+                               builder: (context) => DetailsPage(a,b1)));
                       //  final detail = await showSearch<dynamic>(
                       //    context: context,
                       //
                       // );
                     },
                     //  query = suggestion;
-                    // showResults(context);
+                    //showResults(context);
                     //  },
                   );
                 },
@@ -264,13 +270,15 @@ Future<List<dynamic>> getDetail({required String symbol}) async {
     if (result.statusCode == 200) {
 
       final body = json.decode(result.body);
-      print(body);
+    //  print(body);
       res= [body];
+     // List<Map<String, dynamic>>.from(body);
       // res = body.map<String>((json) {}).toList();
-       print(res);
+      // print(res);
     }
     else {
       print('api err');
+
     }
   } on Exception catch (e) {
     print('err:$e');
@@ -286,21 +294,27 @@ Future<List<dynamic>> getPrice({required String symbol}) async {
     'symbol': symbol.trim(),
     'token': kFinnhubKey,
   };
-  print(queryParameters);
+ // print(queryParameters);
   final uri = Uri.https(authority, path, queryParameters);
-  print(uri);
+ // print(uri);
   final result = await http.get(uri);
   try {
     if (result.statusCode == 200) {
 
       final body = json.decode(result.body);
-      print(body);
+     // print(body);
       res= [body];
       // res = body.map<String>((json) {}).toList();
-      print(res);
+     // print(res);
     }
     else {
       print('api err');
+     // print(res);
+      res=[];
+      if(res.isEmpty){
+       // print("ue");
+      }
+     // print('1'+res.first);
     }
   } on Exception catch (e) {
     print('err:$e');

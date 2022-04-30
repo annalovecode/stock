@@ -55,65 +55,65 @@ class HomePage extends StatefulWidget{
 
        ),
    body:
-   Stack(children: <Widget>[
-   Container(
-   padding: EdgeInsets.all(10),
-       width: MediaQuery.of(context).size.width,
-       color: Colors.black,
-       child: SafeArea(
-       child: Column(
-       mainAxisAlignment: MainAxisAlignment.start,
-       crossAxisAlignment: CrossAxisAlignment.end,
-       //   textDirection: TextDirection.RTL,
-       //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-       verticalDirection: VerticalDirection.down,
-       children:<Widget> [
            _buildSuggestions()
+       );}
 
-       ]),
-       )
-   )
-   ])
-   );
-
-  }
 
 
   Widget _buildSuggestions() {
  //   TestList(quiz:user);
     return (
-
+        Stack(children: <Widget>[
+        Container(
+        padding: EdgeInsets.all(5),
+    width: MediaQuery.of(context).size.width,
+    color: Colors.black,
+    child: SafeArea(
+    child: Column(
+    mainAxisAlignment: MainAxisAlignment.start,
+    crossAxisAlignment: CrossAxisAlignment.end,
+    //   textDirection: TextDirection.RTL,
+    //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    //verticalDirection: VerticalDirection.down,
+    children:<Widget> [
               Text("STOCK WATCH",
                 textAlign: TextAlign.left, // 文本对齐方式
-                style: TextStyle(color: Colors.black,
+                style: TextStyle(color: Colors.white,
                     fontSize: 30,
                     fontWeight: FontWeight.bold),),
               Text(formattedDate,
                   textAlign: TextAlign.left, // 文本对齐方式
                   style: TextStyle(
-                      color:Colors.black,
+                      color:Colors.white,
                       fontSize:30,
                       fontWeight:FontWeight.bold)),
-              Text("favorite", textAlign: TextAlign.left, // 文本对齐方式
-                  style: TextStyle(
-                      color:Colors.black,
-                      fontSize:30,
-                      fontWeight:FontWeight.bold)),
-              Text(user.length.toString())
-    // ListView.builder(
-              //     itemCount: user.length,  //- 要生成的条数
-              //     itemBuilder: (context, index){
-              //       return ListTile(
-              //           title: Text('${user[index].name}')
-              //       );
-              //     }
-              // )
-   // TestList(quiz:user)
+    Align(
+        //crossAxisAlignment: CrossAxisAlignment.center,
+      child:Column(crossAxisAlignment: CrossAxisAlignment.start, children:<Widget>
+      [Text("Favorites", textAlign: TextAlign.left, // 文本对齐方式
 
-  //  new ListView(children: divided)]
-        );
+          style: TextStyle(
+              color:Colors.white,
+              fontSize:30)),
+      Divider(
+        height: 40,
+        color: Colors.grey[100],
+      //  indent: 120,
+      )])
+    ),
+
+    SizedBox(
+    height: MediaQuery.of(context).size.height-310,
+        width: MediaQuery.of(context).size.width,
+
+    child: _containListView()
+    )
+             ])
+
+        ))]));
   }
   Widget _containListView(){
+
       return
         ListView.separated(
           separatorBuilder: (context, index) {
@@ -124,12 +124,20 @@ class HomePage extends StatefulWidget{
         itemCount: user.length,
 
     itemBuilder: (context, index) {
+            if(user.length==0){
+              return ListTile(
+                  textColor: Colors.white,
+                  title: Text("EMPTY"));
+            }
+            else{
     return
       ListTile(
+       textColor: Colors.white,
 
-    title: Text("${user[index].name} | ${user[index].age}"),
+    title: Text("${user[index].name}"),
+        subtitle: Text("${user[index].age}"),
     );
-    });
+    }});
 
   }
   }

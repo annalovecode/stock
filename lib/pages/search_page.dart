@@ -87,12 +87,6 @@ class ToDoSearchDelegate extends SearchDelegate<String> {
           size: 30.0,
         ),
       ),
-      //change icon color to grey  not working-----put inside appBarTheme
-      //change the flash light clor
-      // iconTheme: const IconThemeData(
-      //   color: Colors.blue,
-      //   size: 35.0,
-      // ),
       inputDecorationTheme: InputDecorationTheme(
         border: InputBorder.none,
         // Use this change the placeholder's text style
@@ -107,14 +101,17 @@ class ToDoSearchDelegate extends SearchDelegate<String> {
         IconButton(
           icon: Icon(Icons.clear),
           onPressed: () {
-            if (query.isEmpty) {
-              close(context, "");
-              //Navigator.pop(context);
-            } else {
-              query = '';
-             showSuggestions(context);
-            }
+           query = '';
           },
+         //  onPressed: () {
+         //    if (query.isEmpty) {
+         //      close(context, "");
+         //      //Navigator.pop(context);
+         //    } else {
+         //      query = '';
+         //    // showSuggestions(context);
+         //    }
+         // },
         )
       ];
 
@@ -123,13 +120,12 @@ class ToDoSearchDelegate extends SearchDelegate<String> {
   Widget buildLeading(BuildContext context) {
     return IconButton(
       icon: const Icon(Icons.arrow_back),
-      onPressed: () {
-        close(context,"");
+
+        onPressed: () => close(context, "")
        // Navigator.pop(context);
-      },
+
     );
   }
-
   @override
   Widget buildResults(BuildContext context) {
     return Container(
@@ -209,7 +205,6 @@ class ToDoSearchDelegate extends SearchDelegate<String> {
   Widget buildSuggestions(BuildContext context) {
     return Container(color: Colors.black, child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
-
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: const <Widget>[
           Text(
@@ -268,13 +263,8 @@ Future<List<dynamic>> getDetail({required String symbol}) async {
   final result = await http.get(uri);
   try {
     if (result.statusCode == 200) {
-
       final body = json.decode(result.body);
-    //  print(body);
       res= [body];
-     // List<Map<String, dynamic>>.from(body);
-      // res = body.map<String>((json) {}).toList();
-      // print(res);
     }
     else {
       print('api err');
@@ -300,12 +290,9 @@ Future<List<dynamic>> getPrice({required String symbol}) async {
   final result = await http.get(uri);
   try {
     if (result.statusCode == 200) {
-
       final body = json.decode(result.body);
-     // print(body);
       res= [body];
-      // res = body.map<String>((json) {}).toList();
-     // print(res);
+
     }
     else {
       print('api err');
@@ -314,7 +301,7 @@ Future<List<dynamic>> getPrice({required String symbol}) async {
       if(res.isEmpty){
        // print("ue");
       }
-     // print('1'+res.first);
+
     }
   } on Exception catch (e) {
     print('err:$e');

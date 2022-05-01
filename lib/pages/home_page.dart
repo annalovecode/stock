@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:stock/pages/search_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:stock/widgets/TestList.dart';
 
 import '../widgets/addToFavorite.dart';
 
@@ -14,35 +13,52 @@ class HomePage extends StatefulWidget{
   }
   class RandomWordsState extends State<HomePage> {
 
-    // final List<String> _suggestions = <String>[];
-    //static const loadingTag = "##empty##"; //表尾标记
-    //final Set<String> _saved = {"1"};
-    // final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
-
     final String formattedDate = DateFormat('MMMMd').format(DateTime.now());
     List<User> user = <User>[];
     String key = 'stringValue';
 
+    /**
+     * load the prev data
+     */
     load() async {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       final String categoryStr = prefs.getString(key) ?? "";
       user = User.decode(categoryStr);
     }
-
+    /**
+     * get string of user
+     */
     getStringValuesSF() async {
       load();
       SharedPreferences prefs = await SharedPreferences.getInstance();
       //Return String
       String stringValue = prefs.getString(key) ?? "";
-      print(stringValue);
+     // print(stringValue);
       user = User.decode(stringValue);
       return user;
+    }
+    /**
+     * remove a specific item
+     */
+   // String loadingTag="";
+    remove(String a, String b) async {
+    // load();
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      User item= User(a,b);
+      user.removeWhere((item) => item.name == a);
+      String a1=User.encode(user);
+      if(a1.isEmpty) {
+       //  loadingTag = "##loading##"; //表尾标记
+         a1 = "";
+         user.clear() ;
+         print(user);
+      }
+      prefs.setString(key,a1);
     }
 
     @override
     Widget build(BuildContext context) {
       getStringValuesSF();
-
       return Scaffold(
           appBar: AppBar(
               title: const Text('Stock'),
@@ -51,7 +67,6 @@ class HomePage extends StatefulWidget{
               actions: <Widget>[
                 IconButton(
                   icon: Icon(Icons.search),
-
                   onPressed: () async {
                     showSearch(
                         context: context, delegate: ToDoSearchDelegate());
@@ -67,7 +82,6 @@ class HomePage extends StatefulWidget{
 
 
     Widget _buildSuggestions() {
-      //   TestList(quiz:user);
       return (
           Stack(children: <Widget>[
             Container(
@@ -81,20 +95,17 @@ class HomePage extends StatefulWidget{
                     child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.end,
-                        //   textDirection: TextDirection.RTL,
-                        //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        //verticalDirection: VerticalDirection.down,
                         children: <Widget>[
-                          Text("STOCK WATCH",
+                          Text("STOCK WATCH ",
                             textAlign: TextAlign.left, // 文本对齐方式
                             style: TextStyle(color: Colors.white,
-                                fontSize: 30,
+                                fontSize: 28,
                                 fontWeight: FontWeight.bold),),
-                          Text(formattedDate,
+                          Text(formattedDate+" ",
                               textAlign: TextAlign.left, // 文本对齐方式
                               style: TextStyle(
                                   color: Colors.white,
-                                  fontSize: 30,
+                                  fontSize: 28,
                                   fontWeight: FontWeight.bold)),
                           Align(
                             //crossAxisAlignment: CrossAxisAlignment.center,
@@ -102,20 +113,21 @@ class HomePage extends StatefulWidget{
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>
                                   [
-                                    Text("Favorites", textAlign: TextAlign.left,
+                                    Text(""),
+                                    Text(" Favorites", textAlign: TextAlign.left,
                                         // 文本对齐方式
-
                                         style: TextStyle(
                                             color: Colors.white,
-                                            fontSize: 30)),
+                                            fontSize: 25)),
+                                    Text(""),
                                     Divider(
-                                      height: 20,
-                                      color: Colors.grey[100],
-                                      //  indent: 120,
+                                      thickness: 2,
+                                      color: Colors.white,
+                                       indent: 10,
+                                      endIndent: 10,
                                     )
                                   ])
                           ),
-
                           SizedBox(
                               height: MediaQuery
                                   .of(context)
@@ -125,7 +137,6 @@ class HomePage extends StatefulWidget{
                                   .of(context)
                                   .size
                                   .width,
-
                               child: _containListView()
                           )
                         ])
@@ -134,58 +145,48 @@ class HomePage extends StatefulWidget{
           ]));
     }
 
-    Future<bool?> _showConfirmationDialog(BuildContext context, String action) {
-      print(context);
-      return showDialog<bool>(
-        context: context,
-        barrierDismissible: true,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('Delete Confirmation'),
-            content: const Text('Are you sure you want to delete this item?'),
-            actions: <Widget>[
-              FlatButton(
-                child: const Text('Yes'),
-                onPressed: () {
-                  Navigator.pop(context, true); // showDialog() returns true
-                },
-              ),
-              FlatButton(
-                child: const Text('No'),
-                onPressed: () {
-                  Navigator.pop(context, false); // showDialog() returns false
-                },
-              ),
-            ],
-          );
-        },
-      );
-    }
 
     Widget _containListView() {
-      String whatHappened;
+   //   String whatHappened;
+      load();
+      if(user.isEmpty){
+        return ListView(children: <Widget>[
+        ListTile(
+        // 主标题
+        title: Text('Empty',
+            //文字左对齐
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              //数字必须是Double类型的
+                fontSize: 28.0,
+                fontWeight: FontWeight.bold,
+                //  设置字体的颜色
+                color: Colors.white,
+            )
+        ))]);
+      }
+      else{
       return
         ListView.separated(
+            padding: const EdgeInsets.all(0),
             separatorBuilder: (context, index) {
-              return Divider(color: Colors.grey[400]);
+              return Divider( thickness: 2,
+                color: Colors.white,
+                indent: 10,
+                endIndent: 10,);
             },
-            physics: NeverScrollableScrollPhysics(),
             itemCount: user.length,
             itemBuilder: (context, index) {
-              if (user.length == 0) {
-                return ListTile(
-                    textColor: Colors.white,
-                    title: Text("EMPTY"));
-              }
-              else {
                 return Dismissible(
+
                 confirmDismiss: (direction) {
       return showDialog(
       context: context,
       builder: (context) {
+
       return CupertinoAlertDialog(
-      title: Text('Delete'),
-      content: Text('Delete'),
+      title: Text('Delete Confirmation'),
+      content: Text('Are you sure you want to delete this item ?'),
       actions: <Widget>[
       FlatButton(
       onPressed: () {
@@ -193,9 +194,9 @@ class HomePage extends StatefulWidget{
       Navigator.of(
       context,
       // rootNavigator: true,
-      ).pop(false);
+      ).pop(true);
       },
-      child: Text('No'),
+      child: Text('Delete'),
       ),
       FlatButton(
       onPressed: () {
@@ -203,8 +204,8 @@ class HomePage extends StatefulWidget{
       Navigator.of(
       context,
       // rootNavigator: true,
-      ).pop(true);
-      },  child: Text('Yes'),
+      ).pop(false);
+      },  child: Text('Cancel'),
       ),
       ],
       );
@@ -215,106 +216,47 @@ class HomePage extends StatefulWidget{
                   // uniquely identify widgets.
                     key: ObjectKey(user[index]),
                     direction: DismissDirection.endToStart,
+                    background: Container(
+                      color: Colors.red,
+                      child: Padding(
+                        padding: const EdgeInsets.all(15),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: <Widget>[
+                            Icon(Icons.delete, color: Colors.white),
+                           // Text('Move to favorites', style: TextStyle(color: Colors.white)),
+                          ],
+                        ),
+                      ),
+                    ),
                     onDismissed: (direction) {
                       //TODO DELETE
                       Scaffold.of(context).showSnackBar(
                         SnackBar(
-                          backgroundColor: Theme.of(context).accentColor,
+                          backgroundColor: Colors.white,
                           content: Text(
-                            'test',
-                            textAlign: TextAlign.center,
+                            '${user[index].name} was removed from the watchlist ',
+                            textAlign: TextAlign.start,
                             style: TextStyle(
-                              fontSize: 20.0,
-                              color: Colors.white,
+                              color: Colors.black,
                             ),
                           ),
                         ),
                       );
+                      setState(() {
+                        remove(user[index].name,user[index].age);
+                      });
+
                     },
-                  // Provide a function that tells the app
-                    // what to do after an item has been swiped away.
-                   // onDismissed: (direction) {
-                    //   confirmDismiss:
-                    //       (DismissDirection dismissDirection) async {
-                    //     print('aadd');
-                    //     switch (dismissDirection) {
-                    //       case DismissDirection.endToStart:
-                    //         whatHappened = 'ARCHIVED';
-                    //         print('aaa');
-                    //         return await _showConfirmationDialog(
-                    //             context, 'Archive') == true;
-                    //       case DismissDirection.startToEnd:
-                    //         whatHappened = 'DELETED';
-                    //         print('aaa2');
-                    //         return await _showConfirmationDialog(
-                    //             context, 'Delete') == true;
-                    //       case DismissDirection.horizontal:
-                    //       case DismissDirection.vertical:
-                    //       case DismissDirection.up:
-                    //       case DismissDirection.down:
-                    //       print('aaa3');
-                    //         assert(false);
-                    //     }
-                    //     return false;
-                    //   };
                      child: ListTile(
                   textColor: Colors.white,
-
                   title: Text("${user[index].name}"),
                   subtitle: Text("${user[index].age}"),
                 ));
               }
-            });
-    }
+            );
+    }}
 
-
-  // showDialog<String>(
-  //     context: context,
-  //     builder: (BuildContext context) => AlertDialog(
-  //       title: const Text('Delete Confirmation'),
-  //       content: const Text('Are you sure you want to delete this item?'),
-  //       actions: <Widget>[
-  //         TextButton(
-  //           onPressed: () {
-  //             Navigator.pop(context,'Delete');
-  //             ScaffoldMessenger.of(context)
-  //                 .showSnackBar(SnackBar(content: Text('${user[index].name} dismissed')));
-  //           },
-  //           child: const Text('Delete'),
-  //         ),
-  //         TextButton(
-  //           onPressed: () =>Navigator.pop(context, 'Cancel'),
-  //           child: const Text('Cancel'),
-  //
-  //         ),
-  //
-  //       ],
-
-  //    ),
-  // Remove the item from the data source.
-  // setState(() {
-  //user.removeAt(index);
-
-  //  }
-  //      );
-  //  _alertButton();
-  // Then show a snackbar.
-
-  // ScaffoldMessenger.of(context)
-  //     .showSnackBar(SnackBar(content: Text('${user[index].name} dismissed')));
-  //   },
-
-  //   child:ListTile(
-  //    textColor: Colors.white,
-  //
-  // title: Text("${user[index].name}"),
-  //     subtitle: Text("${user[index].age}"),
-  // // ));
-  // }});
-
-  //
-  // }
-  // }
 
 
   }

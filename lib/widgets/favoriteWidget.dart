@@ -18,40 +18,40 @@ class FavoriteWidget extends StatefulWidget {
 class _FavoriteWidgetState extends State<FavoriteWidget> {
   String a="";
   String b="";
-  //Future<String> _counter=<String>[] as Future<String>;
-  //Set<String> _saved = Set<String>();
   _FavoriteWidgetState(this. a,this.b);
- // SharedPref? sharedPreferences;
-
-  // User userSave = User(a,b);
-  // User userLoad = User();
   List<User> category = <User>[];
   String key = 'stringValue';
+  bool _isFavorited=false;
   load() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final String categoryStr = prefs.getString(key)??"";
     category = User.decode(categoryStr);
+    User userAdd= User(a,b);
+    _isFavorited = category.map((item) => item.name).contains(userAdd.name);
+    print(_isFavorited);
   }
- bool _isFavorited=false;
+
 
 save() async {
-   load();
+    load();
     final prefs = await SharedPreferences.getInstance();
     User userAdd= User(a,b);
     category.add(userAdd);
     String a1=User.encode(category);
     prefs.setString(key,a1);
+    print(a1);
+    _isFavorited = true;
   }
 
   remove() async {
-    load();
     final prefs = await SharedPreferences.getInstance();
-    User userAdd= User(a,b);
-    category.remove(userAdd);
+    User item= User(a,b);
+    category.removeWhere((item) => item.name == a);
     String a1=User.encode(category);
     prefs.setString(key,a1);
+    _isFavorited = false;
   }
-   _toggleFavorite(String paira,String pairb) {
+   _toggleFavorite(String paira,String pairb,bool _isFavorited) {
     setState(() {
       if (!_isFavorited) {
        // sharedPreferences?.save();
@@ -60,12 +60,25 @@ save() async {
       //  _favoriteCount += 1;
        // _saved.add(pair);
         _isFavorited = true;
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+            backgroundColor: Colors.white,
+            content: Text(paira+' was added to watchlist', textAlign: TextAlign.start,
+            style: TextStyle(
+            color: Colors.black,
+        ))));
        // widget.callback(_saved);
 
       } else {
       //  _favoriteCount -= 1;
         remove();
-        _isFavorited = false;
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+                backgroundColor: Colors.white,
+                content: Text(paira+' was removed to watchlist', textAlign: TextAlign.start,
+                    style: TextStyle(
+                      color: Colors.black,
+                    ))));
        // _saved.remove(pair);
         //print("state:'_saved'");
       }
@@ -79,6 +92,7 @@ save() async {
   Widget build(BuildContext context) {
      String paira=a.toString();
      String pairb=b.toString();
+     load();
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
@@ -87,22 +101,11 @@ save() async {
           child: IconButton(
             icon: (_isFavorited ? Icon(Icons.star) : Icon(Icons.star_border)),
               color: _isFavorited ? Colors.white : null,
-            onPressed: (){ _toggleFavorite(paira,pairb);
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  backgroundColor: Colors.white,
-                  content: Text(paira+'was added to watchlist'),
-                  // action: SnackBarAction(
-                  //   label: 'Action',
-                  //   onPressed: () {
-                  //     // Code to execute.
-                  //   },
-                //  ),
+            onPressed: (){ _toggleFavorite(paira,pairb,_isFavorited);}
+
                 ),
-              );
-            },
-          ),
-        ),
+              )
+        ,
         SizedBox(
           width: 18,
           // child: Container(

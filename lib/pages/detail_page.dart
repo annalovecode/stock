@@ -314,7 +314,7 @@ class DetailPageState extends State<DetailsPage> {
                         ]), Row(
                         children: [
                           Container(
-                            padding: const EdgeInsets.fromLTRB(5, 0, 30, 20),
+                            padding: const EdgeInsets.fromLTRB(5, 0, 30, 5),
                             child: Text('About',
                                 style: TextStyle(color: Colors.white,
                                   fontSize: 25,
@@ -324,54 +324,54 @@ class DetailPageState extends State<DetailsPage> {
                         ]), Row(
                         children: [
                           Container(
-                            padding: const EdgeInsets.fromLTRB(5, 0, 30, 20),
+                            padding: const EdgeInsets.fromLTRB(5, 0, 30, 5),
                             child: Text('Start date',
                                 style: TextStyle(color: Colors.white,
-                                  fontSize: 20,
+                                  fontSize: 14,
                                 )),
                           ),
                           Container(
-                            padding: const EdgeInsets.fromLTRB(30, 0, 20, 20),
+                            padding: const EdgeInsets.fromLTRB(10, 0, 20, 5),
                             child: Text(a.first['ipo'].toString(),
                                 // style: flag  ? Colors.redAccent : Colors.green
                                 style: TextStyle(color: Colors.grey,
-                                  fontSize: 18,
+                                  fontSize: 14,
                                 )),
                           )
                         ]), Row(
                         children: [
                           Container(
-                            padding: const EdgeInsets.fromLTRB(5, 0, 30, 20),
+                            padding: const EdgeInsets.fromLTRB(5, 0, 42, 5),
                             child: Text('Industry',
                                 style: TextStyle(color: Colors.white,
-                                  fontSize: 20,
+                                  fontSize: 14,
                                 )),
                           ),
                           Container(
-                            padding: const EdgeInsets.fromLTRB(30, 0, 20, 20),
+                            padding: const EdgeInsets.fromLTRB(10, 0, 20, 5),
                             child: Text(a.first['finnhubIndustry'].toString(),
                                 // style: flag  ? Colors.redAccent : Colors.green
                                 style: TextStyle(color: Colors.grey,
-                                  fontSize: 18,
+                                  fontSize: 14,
                                 )),
                           )
                         ]),
                     Row(
                         children: [
                           Container(
-                            padding: const EdgeInsets.fromLTRB(5, 0, 30, 20),
+                            padding: const EdgeInsets.fromLTRB(5, 0, 42, 5),
                             child: Text('Website',
                                 style: TextStyle(color: Colors.white,
-                                  fontSize: 18,
+                                  fontSize: 14,
                                 )),
                           ),
                           //hyplink here----x forget
                           Container(
-                           padding: const EdgeInsets.fromLTRB(30, 0, 20, 20),
+                           padding: const EdgeInsets.fromLTRB(10, 0, 20, 5),
                             child:InkWell(
                             child: Text(a.first['weburl'].toString(),
-                                style: TextStyle(color: Colors.grey,
-                                  fontSize: 18,
+                                style: TextStyle(color: Colors.blue,
+                                  fontSize: 14,
                                 )),
     onTap: () => launchUrl(Uri.parse(a.first['weburl'].toString())))
     )
@@ -381,40 +381,40 @@ class DetailPageState extends State<DetailsPage> {
                     Row(
                         children: [
                           Container(
-                            padding: const EdgeInsets.fromLTRB(5, 0, 30, 20),
+                            padding: const EdgeInsets.fromLTRB(5, 0, 32, 5),
                             child: Text('Exchange',
                                 style: TextStyle(color: Colors.white,
-                                  fontSize: 18,
+                                  fontSize: 14,
                                 )),
                           ),
                           //hyplink here----x forget
                           Container(
-                            padding: const EdgeInsets.fromLTRB(30, 0, 20, 20),
+                            padding: const EdgeInsets.fromLTRB(10, 0, 20, 5),
                             child: Text(
                                 a.first['exchange'].toString(), softWrap: true,
                                 // style: flag  ? Colors.redAccent : Colors.green
                                 style: TextStyle(color: Colors.grey,
-                                  fontSize: 18,
+                                  fontSize: 14,
                                 )),
                           )
                         ]),
                     Row(
                         children: [
                           Container(
-                            padding: const EdgeInsets.fromLTRB(5, 0, 30, 20),
+                            padding: const EdgeInsets.fromLTRB(5, 0, 20, 5),
                             child: Text('Market Cap',
                                 style: TextStyle(color: Colors.white,
-                                  fontSize: 20,
+                                  fontSize: 14,
                                 )),
                           ),
                           //hyplink here----x forget
                           Container(
-                            padding: const EdgeInsets.fromLTRB(30, 0, 20, 20),
+                            padding: const EdgeInsets.fromLTRB(10, 0, 20, 5),
                             child: Text(
                                 a.first['marketCapitalization'].toString(),
                                 // style: flag  ? Colors.redAccent : Colors.green
                                 style: TextStyle(color: Colors.grey,
-                                  fontSize: 18,
+                                  fontSize: 14,
                                 )),
                           )
                         ])

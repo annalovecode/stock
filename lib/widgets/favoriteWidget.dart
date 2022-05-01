@@ -44,6 +44,7 @@ save() async {
   }
 
   remove() async {
+    load();
     final prefs = await SharedPreferences.getInstance();
     User item= User(a,b);
     category.removeWhere((item) => item.name == a);

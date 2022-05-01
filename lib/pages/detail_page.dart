@@ -249,14 +249,14 @@ class DetailPageState extends State<DetailsPage> {
                     Row(
                         children: [
                           Container(
-                            padding: const EdgeInsets.fromLTRB(5, 0, 30, 20),
+                            padding: const EdgeInsets.fromLTRB(5, 0, 15, 10),
                             child: Text('Open',
                                 style: TextStyle(color: Colors.white,
                                   fontSize: 20,
                                 )),
                           ),
                           Container(
-                            padding: const EdgeInsets.fromLTRB(30, 0, 20, 20),
+                            padding: const EdgeInsets.fromLTRB(15, 0, 20, 10),
                             child: Text(b.first['o'].toString(),
                                 // style: flag  ? Colors.redAccent : Colors.green
                                 style: TextStyle(color: Colors.grey,
@@ -264,14 +264,14 @@ class DetailPageState extends State<DetailsPage> {
                                 )),
                           ),
                           Container(
-                            padding: const EdgeInsets.fromLTRB(40, 0, 30, 20),
+                            padding: const EdgeInsets.fromLTRB(30, 0, 15, 10),
                             child: Text('High',
                                 style: TextStyle(color: Colors.white,
                                   fontSize: 20,
                                 )),
                           ),
                           Container(
-                            padding: const EdgeInsets.fromLTRB(5, 0, 0, 20),
+                            padding: const EdgeInsets.fromLTRB(5, 0, 0, 10),
                             child: Text(b.first['h'].toString(),
                                 // style: flag  ? Colors.redAccent : Colors.green
                                 style: TextStyle(color: Colors.grey,
@@ -282,14 +282,16 @@ class DetailPageState extends State<DetailsPage> {
                     Row(
                         children: [
                           Container(
-                            padding: const EdgeInsets.fromLTRB(10, 0, 30, 20),
+                            padding: const EdgeInsets.fromLTRB(10, 0, 20, 10),
+                            alignment: Alignment.center,
                             child: Text('Low',
                                 style: TextStyle(color: Colors.white,
                                   fontSize: 20,
                                 )),
                           ),
                           Container(
-                            padding: const EdgeInsets.fromLTRB(30, 0, 30, 20),
+                            alignment: Alignment.center,
+                            padding: const EdgeInsets.fromLTRB(20, 0, 25, 10),
                             child: Text(b.first['l'].toString(),
                                 // style: flag  ? Colors.redAccent : Colors.green
                                 style: TextStyle(color: Colors.grey,
@@ -297,14 +299,16 @@ class DetailPageState extends State<DetailsPage> {
                                 )),
                           ),
                           Container(
-                            padding: const EdgeInsets.fromLTRB(40, 0, 30, 20),
+                            alignment: Alignment.center,
+                            padding: const EdgeInsets.fromLTRB(25, 0, 15, 10),
                             child: Text('Prev',
                                 style: TextStyle(color: Colors.white,
                                   fontSize: 20,
                                 )),
                           ),
                           Container(
-                            padding: const EdgeInsets.fromLTRB(5, 0, 0, 20),
+                            alignment: Alignment.center,
+                            padding: const EdgeInsets.fromLTRB(6, 0, 0, 10),
                             child: Text(b.first['pc'].toString(),
                                 // style: flag  ? Colors.redAccent : Colors.green
                                 style: TextStyle(color: Colors.grey,
@@ -314,7 +318,8 @@ class DetailPageState extends State<DetailsPage> {
                         ]), Row(
                         children: [
                           Container(
-                            padding: const EdgeInsets.fromLTRB(5, 0, 30, 5),
+                           // alignment: Alignment.center,
+                            padding: const EdgeInsets.fromLTRB(10, 0, 30, 10),
                             child: Text('About',
                                 style: TextStyle(color: Colors.white,
                                   fontSize: 25,
@@ -324,13 +329,15 @@ class DetailPageState extends State<DetailsPage> {
                         ]), Row(
                         children: [
                           Container(
-                            padding: const EdgeInsets.fromLTRB(5, 0, 30, 5),
+                            //alignment: Alignment.center,
+                            padding: const EdgeInsets.fromLTRB(10, 0, 30, 5),
                             child: Text('Start date',
                                 style: TextStyle(color: Colors.white,
                                   fontSize: 14,
                                 )),
                           ),
                           Container(
+                          //  alignment: Alignment.center,
                             padding: const EdgeInsets.fromLTRB(10, 0, 20, 5),
                             child: Text(a.first['ipo'].toString(),
                                 // style: flag  ? Colors.redAccent : Colors.green
@@ -341,7 +348,8 @@ class DetailPageState extends State<DetailsPage> {
                         ]), Row(
                         children: [
                           Container(
-                            padding: const EdgeInsets.fromLTRB(5, 0, 42, 5),
+
+                            padding: const EdgeInsets.fromLTRB(10, 0, 42, 5),
                             child: Text('Industry',
                                 style: TextStyle(color: Colors.white,
                                   fontSize: 14,
@@ -359,7 +367,7 @@ class DetailPageState extends State<DetailsPage> {
                     Row(
                         children: [
                           Container(
-                            padding: const EdgeInsets.fromLTRB(5, 0, 42, 5),
+                            padding: const EdgeInsets.fromLTRB(10, 0, 42, 5),
                             child: Text('Website',
                                 style: TextStyle(color: Colors.white,
                                   fontSize: 14,
@@ -381,7 +389,7 @@ class DetailPageState extends State<DetailsPage> {
                     Row(
                         children: [
                           Container(
-                            padding: const EdgeInsets.fromLTRB(5, 0, 32, 5),
+                            padding: const EdgeInsets.fromLTRB(10, 0, 32, 5),
                             child: Text('Exchange',
                                 style: TextStyle(color: Colors.white,
                                   fontSize: 14,
@@ -401,7 +409,7 @@ class DetailPageState extends State<DetailsPage> {
                     Row(
                         children: [
                           Container(
-                            padding: const EdgeInsets.fromLTRB(5, 0, 20, 5),
+                            padding: const EdgeInsets.fromLTRB(10, 0, 20, 5),
                             child: Text('Market Cap',
                                 style: TextStyle(color: Colors.white,
                                   fontSize: 14,

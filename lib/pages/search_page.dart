@@ -102,6 +102,7 @@ class ToDoSearchDelegate extends SearchDelegate<String> {
           icon: Icon(Icons.clear),
           onPressed: () {
            query = '';
+           showSuggestions(context);
           },
          //  onPressed: () {
          //    if (query.isEmpty) {

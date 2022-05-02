@@ -52,7 +52,7 @@ save() async {
     String a1=User.encode(category);
     prefs.setString(key,a1);
     print(a1);
-  //  _isFavorited = true;
+  _isFavorited = true;
   }
 
   remove() async {
@@ -62,7 +62,7 @@ save() async {
     category.removeWhere((item) => item.name == a);
     String a1=User.encode(category);
     prefs.setString(key,a1);
-   // _isFavorited = false;
+   _isFavorited = false;
 
   }
    _toggleFavorite(String paira,String pairb) {

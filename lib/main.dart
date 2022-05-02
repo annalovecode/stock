@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stock/pages/home_page.dart';
+import 'package:stock/pages/search_page.dart';
 // void main() {
 //   runApp(const MyApp());
 // }

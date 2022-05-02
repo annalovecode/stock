@@ -1,25 +1,31 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:stock/pages/detail_page.dart';
 import 'package:stock/pages/search_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../widgets/addToFavorite.dart';
-
+class MyNotification extends Notification {
+  MyNotification(this.msg);
+  final String msg;
+}
 class HomePage extends StatefulWidget{
-
   @override
-  RandomWordsState createState() => new RandomWordsState();
+  RandomWordsState createState() => RandomWordsState();
   }
-  class RandomWordsState extends State<HomePage> {
 
+  class RandomWordsState extends State<HomePage> {
+    String _msg="";
     final String formattedDate = DateFormat('MMMMd').format(DateTime.now());
     List<User> user = <User>[];
     String key = 'stringValue';
 
+    //SharedPreferences prefs = SharedPreferences.getInstance() as SharedPreferences;
     /**
      * load the prev data
      */
+
     load() async {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       final String categoryStr = prefs.getString(key) ?? "";
@@ -70,8 +76,15 @@ class HomePage extends StatefulWidget{
                   onPressed: () async {
                     showSearch(
                         context: context, delegate: ToDoSearchDelegate());
-                  },
-                ),
+
+                      // This block runs when you have come back to the 1st Page from 2nd.
+                      setState(() {
+                        // Call setState to refresh the page.
+                      });
+                    })
+
+
+
               ]
 
           ),
@@ -82,6 +95,7 @@ class HomePage extends StatefulWidget{
 
 
     Widget _buildSuggestions() {
+      getStringValuesSF();
       return (
           Stack(children: <Widget>[
             Container(
@@ -149,6 +163,10 @@ class HomePage extends StatefulWidget{
     Widget _containListView() {
    //   String whatHappened;
       load();
+      setState(() {
+        // Call setState to refresh the page.
+      });
+      return StatefulBuilder(builder: (context, setNewState) {
       if(user.isEmpty){
         return ListView(children: <Widget>[
         ListTile(
@@ -229,6 +247,7 @@ class HomePage extends StatefulWidget{
                         ),
                       ),
                     ),
+
                     onDismissed: (direction) {
                       //TODO DELETE
                       Scaffold.of(context).showSnackBar(
@@ -254,8 +273,8 @@ class HomePage extends StatefulWidget{
                   subtitle: Text("${user[index].age}"),
                 ));
               }
-            );
-    }}
+            );}
+    });}
 
 
 

@@ -127,7 +127,12 @@ class DetailPageState extends State<DetailsPage> {
   List b = [];
 
   DetailPageState(this.a, this.b);
-
+//   bool _isFavorited=false;
+// callback() {
+//     setState(() {
+//       _isFavorited=true;
+//     });
+//   }
   @override
   Widget build(BuildContext context) {
     // print(a);
@@ -141,7 +146,7 @@ class DetailPageState extends State<DetailsPage> {
     centerTitle: true,
     backgroundColor: Colors.grey[800],
     actions: <Widget>[
-    FavoriteWidget("","")
+    FavoriteWidget("",""),
     ]
     ),
     body: Container(
@@ -194,6 +199,7 @@ class DetailPageState extends State<DetailsPage> {
               padding: const EdgeInsets.only(left: 8),
               child: Column(
                   children: [
+
                     Row(
                         children: [
                           Container(
@@ -206,14 +212,17 @@ class DetailPageState extends State<DetailsPage> {
                           ),
                           Container(
                             padding: const EdgeInsets.fromLTRB(5, 40, 0, 20),
+
                             child: Text(
-                                a.first['name'].toString(), softWrap: true,
+                                a.first['name'].toString().length<25?a.first['name'].toString():a.first['name'].toString().substring(0,25), softWrap: false,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 3,
                                 // style: flag  ? Colors.redAccent : Colors.green
                                 style: TextStyle(color: Colors.grey,
                                   fontSize: 25,
                                 )),
+                                  )
 
-                          )
                         ]),
                     Row(
                         children: [
@@ -248,6 +257,7 @@ class DetailPageState extends State<DetailsPage> {
                         ]),
                     Row(
                         children: [
+
                           Container(
                             padding: const EdgeInsets.fromLTRB(5, 0, 15, 10),
                             child: Text('Open',

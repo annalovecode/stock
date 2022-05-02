@@ -6,6 +6,7 @@ import 'package:stock/pages/detail_page.dart';
 import 'dart:io';
 
 import 'api_keys.dart';
+import 'home_page.dart';
 class ToDo {
   int? count;
   List<Result>? result;
@@ -67,9 +68,11 @@ class Result {
 
 
 class ToDoSearchDelegate extends SearchDelegate<String> {
-  //Set<String> saved =Set<String>();
-  ToDoSearchDelegate();
 
+  //Set<String> saved =Set<String>();
+
+
+  ToDoSearchDelegate();
   @override
   ThemeData appBarTheme(BuildContext context) {
     return ThemeData(
@@ -121,9 +124,15 @@ class ToDoSearchDelegate extends SearchDelegate<String> {
   Widget buildLeading(BuildContext context) {
     return IconButton(
       icon: const Icon(Icons.arrow_back),
+        onPressed: () {
+         // callback();
+          Navigator.pop(context);
 
-        onPressed: () => close(context, "")
-       // Navigator.pop(context);
+        }
+
+     // onPressed: ()=>
+         // Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage())).then((value) => _getInitial());
+          //Navigator.of(context).push(MaterialPageRoute(builder: (_)=>HomePage()),)
 
     );
   }
@@ -310,5 +319,6 @@ Future<List<dynamic>> getPrice({required String symbol}) async {
 
   return res;
 }
+
 
 

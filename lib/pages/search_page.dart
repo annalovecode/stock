@@ -73,6 +73,19 @@ class ToDoSearchDelegate extends SearchDelegate<String> {
 
 
   ToDoSearchDelegate();
+  CounterProvider _counterProvider = new CounterProvider();
+  void initState() {
+
+    _counterProvider.addListener(() {
+      //数值改变的监听
+      print('YM------>新数值:${ _counterProvider.user}');
+    });
+  }
+  void dispose() {
+
+    _counterProvider.dispose();//移除监听
+    print('YM------>新数值:${ _counterProvider.user}');
+  }
   @override
   ThemeData appBarTheme(BuildContext context) {
     return ThemeData(
@@ -128,7 +141,11 @@ class ToDoSearchDelegate extends SearchDelegate<String> {
         onPressed: () {
          // callback();
          // close(context, query);
-          Navigator.pop(context);
+        Navigator.pop(context);
+
+        _counterProvider.change();
+        //  Navigator.of(context).pop("a");
+        //  Navigator.pop(context,controller.text ?? "");
 
         }
 

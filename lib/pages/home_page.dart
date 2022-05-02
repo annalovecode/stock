@@ -17,9 +17,26 @@ class HomePage extends StatefulWidget{
 
   class RandomWordsState extends State<HomePage> {
     //String _msg="";
+
     final String formattedDate = DateFormat('MMMMd').format(DateTime.now());
     List<User> user = <User>[];
     String key = 'stringValue';
+    // CounterProvider _counterProvider = new CounterProvider();
+    // @override
+    // void initState() {
+    //   super.initState();
+    //   _counterProvider.addListener(() {
+    //     //数值改变的监听
+    //     print('YM------>新数值:${ _counterProvider.user}');
+    //   });
+    // }
+    // @override
+    // void dispose() {
+    //   super.dispose();
+    //   _counterProvider.dispose();//移除监听
+    //   print('YM------>新数值:${ _counterProvider.user}');
+    // }
+
     //String searchOne="";
     //SharedPreferences prefs = SharedPreferences.getInstance() as SharedPreferences;
     // @override
@@ -71,7 +88,7 @@ class HomePage extends StatefulWidget{
     @override
     Widget build(BuildContext context) {
      getStringValuesSF();
-      return Scaffold(
+     return Scaffold(
           appBar: AppBar(
               title: const Text('Stock'),
               centerTitle: true,
@@ -86,6 +103,7 @@ class HomePage extends StatefulWidget{
 
                       // This block runs when you have come back to the 1st Page from 2nd.
                       setState(() {
+
                         // Cal l setState to refresh the page.
                      //   searchOne=finalResult;
 
@@ -316,3 +334,20 @@ class HomePage extends StatefulWidget{
 
 
   }
+
+class CounterProvider with ChangeNotifier {
+  List<User> user = <User>[];
+
+  List<User> get value => user;
+  void change() {
+    load() async {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      final String categoryStr = prefs.getString('stringValue') ?? "";
+      user = User.decode(categoryStr);
+      notifyListeners();
+    }
+
+  }
+
+}
+

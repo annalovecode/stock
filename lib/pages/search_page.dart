@@ -105,6 +105,7 @@ class ToDoSearchDelegate extends SearchDelegate<String> {
           icon: Icon(Icons.clear),
           onPressed: () {
            query = '';
+         //  buildSuggestions(context);
            showSuggestions(context);
           },
          //  onPressed: () {
@@ -126,7 +127,8 @@ class ToDoSearchDelegate extends SearchDelegate<String> {
       icon: const Icon(Icons.arrow_back),
         onPressed: () {
          // callback();
-          Navigator.pop(context);
+          close(context, query);
+          //Navigator.pop(context);
 
         }
 

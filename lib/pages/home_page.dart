@@ -6,22 +6,27 @@ import 'package:stock/pages/search_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../widgets/addToFavorite.dart';
-class MyNotification extends Notification {
-  MyNotification(this.msg);
-  final String msg;
-}
+// class MyNotification extends Notification {
+//   MyNotification(this.msg);
+//   final String msg;
+// }
 class HomePage extends StatefulWidget{
   @override
   RandomWordsState createState() => RandomWordsState();
   }
 
   class RandomWordsState extends State<HomePage> {
-    String _msg="";
+    //String _msg="";
     final String formattedDate = DateFormat('MMMMd').format(DateTime.now());
     List<User> user = <User>[];
     String key = 'stringValue';
-
+    //String searchOne="";
     //SharedPreferences prefs = SharedPreferences.getInstance() as SharedPreferences;
+    // @override
+    // void initState(){
+    //   super.initState();
+    //   load();
+    // }
     /**
      * load the prev data
      */
@@ -41,6 +46,7 @@ class HomePage extends StatefulWidget{
       String stringValue = prefs.getString(key) ?? "";
      // print(stringValue);
       user = User.decode(stringValue);
+      print(stringValue);
       return user;
     }
     /**
@@ -64,7 +70,7 @@ class HomePage extends StatefulWidget{
 
     @override
     Widget build(BuildContext context) {
-      getStringValuesSF();
+     getStringValuesSF();
       return Scaffold(
           appBar: AppBar(
               title: const Text('Stock'),
@@ -74,12 +80,15 @@ class HomePage extends StatefulWidget{
                 IconButton(
                   icon: Icon(Icons.search),
                   onPressed: () async {
-                    showSearch(
+               //    const finalResult ="";
+                   showSearch(
                         context: context, delegate: ToDoSearchDelegate());
 
                       // This block runs when you have come back to the 1st Page from 2nd.
                       setState(() {
-                        // Call setState to refresh the page.
+                        // Cal l setState to refresh the page.
+                     //   searchOne=finalResult;
+
                       });
                     })
 
@@ -162,7 +171,7 @@ class HomePage extends StatefulWidget{
 
     Widget _containListView() {
    //   String whatHappened;
-      load();
+   //   load();
       setState(() {
         // Call setState to refresh the page.
       });
@@ -271,6 +280,19 @@ class HomePage extends StatefulWidget{
                   textColor: Colors.white,
                   title: Text("${user[index].name}"),
                   subtitle: Text("${user[index].age}"),
+                       onTap: () async {
+                         List<dynamic> a =await getDetail(symbol: user[index].name);
+                         // print(a.toString());
+                         //  List lista = await a as List ;
+                         //  print(a.toString());
+                         Future<List<dynamic>> b= getPrice(symbol: user[index].name);
+                         List<dynamic> b1 =await b;
+                         Navigator.push(
+                             context,
+                             MaterialPageRoute(
+// //            builder: (context) => new NewsWebPage(h5_url,'新闻详情')));
+                                 builder: (context) => DetailsPage(a,b1)));
+                       },
                 ));
               }
             );}

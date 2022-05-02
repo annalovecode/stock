@@ -1,10 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stock/pages/detail_page.dart';
 import 'package:stock/pages/search_page.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../widgets/Stock.dart';
 
@@ -25,26 +24,26 @@ class HomePage extends StatefulWidget{
      */
 
     load() async {
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
-      final String categoryStr = prefs.getString(key) ?? "";
-      stockList = Stock.decode(categoryStr);
-    }
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String categoryStr = prefs.getString(key) ?? "";
+    stockList = Stock.decode(categoryStr);
+  }
 
-    /**
+  /**
      * get string of user
      */
     getStringValuesSF() async {
-      load();
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      //Return String
-      String stringValue = prefs.getString(key) ?? "";
-      // print(stringValue);
-      stockList = Stock.decode(stringValue);
-      //print(stringValue);
-      return stockList;
-    }
+    //  load();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    //Return String
+    String stringValue = prefs.getString(key) ?? "";
+    // print(stringValue);
+    stockList = Stock.decode(stringValue);
+    //print(stringValue);
+    return stockList;
+  }
 
-    /**
+  /**
      * remove a specific item
      */
     // String loadingTag="";
@@ -77,9 +76,10 @@ class HomePage extends StatefulWidget{
                   IconButton(
                       icon: Icon(Icons.search),
                       onPressed: () async {
-                        showSearch(
+                        await showSearch(
                             context: context, delegate: ToDoSearchDelegate());
                         // This block runs when you have come back to the 1st Page from 2nd.
+                        await load();
                         setState(() {
                           // Cal l setState to refresh the page.
                           //   searchOne=finalResult;
@@ -294,22 +294,29 @@ class HomePage extends StatefulWidget{
                               title: Text("${stockList[index].name}"),
                               subtitle: Text("${stockList[index].CompanyName}"),
                               onTap: () async {
-                                List<dynamic> a = await getDetail(
-                                    symbol: stockList[index].name);
-                                // print(a.toString());
-                                //  List lista = await a as List ;
-                                //  print(a.toString());
-                                Future<List<dynamic>> b = getPrice(
-                                    symbol: stockList[index].name);
-                                List<dynamic> b1 = await b;
-                                Navigator.push(
+                                List<dynamic> a =
+                                await getDetail(symbol: stockList[index].name);
+                            // print(a.toString());
+                            //  List lista = await a as List ;
+                            //  print(a.toString());
+                            Future<List<dynamic>> b =
+                                getPrice(symbol: stockList[index].name);
+                            List<dynamic> b1 = await b;
+                            Navigator.push(
                                     context,
                                     MaterialPageRoute(
 // //            builder: (context) => new NewsWebPage(h5_url,'新闻详情')));
                                         builder: (context) =>
-                                            DetailsPage(a, b1)));
-                              },
-                            ));
+                                            DetailsPage(a, b1)))
+                                .then((value) async {
+                              SharedPreferences prefs =
+                                  await SharedPreferences.getInstance();
+                              String categoryStr = prefs.getString(key) ?? "";
+                              stockList = Stock.decode(categoryStr);
+                              setState(() {});
+                            });
+                          },
+                        ));
                       }
                   );
               }

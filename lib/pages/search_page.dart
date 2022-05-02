@@ -2,13 +2,11 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stock/pages/detail_page.dart';
+
 import '../widgets/Stock.dart';
-import '../widgets/favoriteWidget.dart';
 import 'api_keys.dart';
-import 'home_page.dart';
 class ToDo {
   int? count;
   List<Result>? result;
@@ -74,7 +72,7 @@ class ToDoSearchDelegate extends SearchDelegate<String> {
 
 
   ToDoSearchDelegate();
-  // CounterProvider _counterProvider = new CounterProvider();
+   //CounterProvider _counterProvider = new CounterProvider();
   // //CounterProvider _counterProvider = new CounterProvider();
   // void initState() {
   //
@@ -139,7 +137,7 @@ class ToDoSearchDelegate extends SearchDelegate<String> {
         onPressed: () {
         Navigator.pop(context);
         //Provider.of<CounterProvider>(context, listen: false).change();
-      //  _counterProvider.change();
+       // _counterProvider.change();
         }
 
 
@@ -171,10 +169,10 @@ class ToDoSearchDelegate extends SearchDelegate<String> {
                       Future<List<dynamic>> b= getPrice(symbol: symbol);
                       List<dynamic> b1 =await b;
 
-                       Navigator.push(
-                           context,
-                           MaterialPageRoute(
-                               builder: (context) => DetailsPage(a,b1)));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => DetailsPage(a, b1)));
 
                     },
 

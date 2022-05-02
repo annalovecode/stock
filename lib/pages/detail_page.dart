@@ -9,6 +9,7 @@ import 'package:meta/meta.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../widgets/favoriteWidget.dart';
+import 'home_page.dart';
 // import 'dart:html' as html;
 
 class detail {
@@ -133,7 +134,8 @@ class DetailPageState extends State<DetailsPage> {
 //       _isFavorited=true;
 //     });
 //   }
-  @override
+
+    @override
   Widget build(BuildContext context) {
     // print(a);
     bool flag = true;

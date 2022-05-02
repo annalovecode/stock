@@ -4,7 +4,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../pages/home_page.dart';
 import 'addToFavorite.dart';
+import 'package:async/async.dart';
 class FavoriteWidget extends StatefulWidget {
   String a="";
   String b="";
@@ -24,11 +26,13 @@ class _FavoriteWidgetState extends State<FavoriteWidget> {
   List<User> category = <User>[];
   String key = 'stringValue';
   bool _isFavorited=false;
-  @override
-  void initState(){
-    super.initState();
-    load();
-  }
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   _memoizer = AsyncMemoizer();
+  // }
+
  load() async {
   // bool _isFavorited=true;
    //print(a.toString());
@@ -111,35 +115,39 @@ save() async {
   @override
   Widget build(BuildContext context) {
     //initState();
-     load();
+    // load();
      print(a.toString());
      String paira=a.toString();
      String pairb=b.toString();
      print(paira);
     //  load();
     // print(_isFavorited);
-     return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        Container(
-          padding: EdgeInsets.all(0),
-          child: IconButton(
-            icon: (_isFavorited ? Icon(Icons.star) : Icon(Icons.star_border)),
-              color: _isFavorited ? Colors.white : null,
-            onPressed: (){ _toggleFavorite(paira,pairb);}
-                ),
-              )
-        ,
-        SizedBox(
-          width: 18,
-          // child: Container(
-          //   child: Text('$_favoriteCount'),
-          // ),
-        )
-      ],
+     return FutureBuilder(
+         future: load(),
+    builder: (ctx, snapshot) {
+
+    return Row(
+    mainAxisSize: MainAxisSize.min,
+    children: <Widget>[
+    Container(
+    padding: EdgeInsets.all(0),
+    child: IconButton(
+    icon: (_isFavorited ? Icon(Icons.star) : Icon(Icons.star_border)),
+    color: _isFavorited ? Colors.white : null,
+    onPressed: (){ _toggleFavorite(paira,pairb);}
+    ),
+    )
+    ,
+    SizedBox(
+    width: 18,
+    // child: Container(
+    //   child: Text('$_favoriteCount'),
+    // ),
+    )
+    ],
     );
-  }
+    }
 
+     );
 
-
-}
+}}

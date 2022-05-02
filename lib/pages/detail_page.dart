@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:stock/pages/search_page.dart';
 
 import 'package:url_launcher/url_launcher.dart';
 
@@ -120,6 +121,14 @@ class DetailPageState extends State<DetailsPage> {
   List b = [];
 
   DetailPageState(this.a, this.b);
+  CounterProvider _counterProvider = new CounterProvider();
+  //CounterProvider _counterProvider = new CounterProvider();
+
+  // void dispose() {
+  //
+  //   _counterProvider.dispose();//移除监听
+  //   print('YM------>新数值:${ _counterProvider.user}');
+  // }
     @override
   Widget build(BuildContext context) {
     // print(a);

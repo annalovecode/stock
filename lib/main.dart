@@ -5,6 +5,7 @@ import 'package:stock/pages/search_page.dart';
 //   runApp(const MyApp());
 // }
 Future<void> main() async {
+
   runApp(MyApp());
 }
 class MyApp extends StatelessWidget {

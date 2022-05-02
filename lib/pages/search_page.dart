@@ -2,7 +2,11 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stock/pages/detail_page.dart';
+import '../widgets/Stock.dart';
+import '../widgets/favoriteWidget.dart';
 import 'api_keys.dart';
 import 'home_page.dart';
 class ToDo {
@@ -70,23 +74,20 @@ class ToDoSearchDelegate extends SearchDelegate<String> {
 
 
   ToDoSearchDelegate();
-  CounterProvider _counterProvider = new CounterProvider();
-
-  /**
-   * init state
-   */
-  void initState() {
-
-    _counterProvider.addListener(() {
-      //数值改变的监听
-      print('YM------>${ _counterProvider.stock}');
-    });
-  }
-  void dispose() {
-
-    _counterProvider.dispose();//移除监听
-   print('YM------>${ _counterProvider.stock}');
-  }
+  // CounterProvider _counterProvider = new CounterProvider();
+  // //CounterProvider _counterProvider = new CounterProvider();
+  // void initState() {
+  //
+  //   _counterProvider.addListener(() {
+  //     //数值改变的监听
+  //     print('YM------>新数值:${ _counterProvider.user}');
+  //   });
+  // }
+  // void dispose() {
+  //
+  //   _counterProvider.dispose();//移除监听
+  //   print('YM------>新数值:${ _counterProvider.user}');
+  // }
 
   /**
    * themeData change
@@ -136,9 +137,9 @@ class ToDoSearchDelegate extends SearchDelegate<String> {
     return IconButton(
       icon: const Icon(Icons.arrow_back),
         onPressed: () {
-          _counterProvider.change();
         Navigator.pop(context);
-
+        //Provider.of<CounterProvider>(context, listen: false).change();
+      //  _counterProvider.change();
         }
 
 
@@ -320,6 +321,24 @@ Future<List<dynamic>> getPrice({required String symbol}) async {
 
   return res;
 }
+class CounterProvider with ChangeNotifier {
+  List<Stock> user = <Stock>[];
+  List<Stock> get value => user;
+  void change() {
+    load() async {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      final String categoryStr = prefs.getString('stringValue') ?? "";
+      user =Stock.decode(categoryStr);
+      notifyListeners();
+    }
+
+  }
+
+}
+
+
+
+
 
 
 

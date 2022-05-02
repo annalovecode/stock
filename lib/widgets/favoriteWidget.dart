@@ -24,7 +24,20 @@ class _FavoriteWidgetState extends State<FavoriteWidget> {
   List<Stock> category = <Stock>[];
   String key = 'stringValue';
   bool _isFavorited = false;
-
+  // CounterProvider _counterProvider = new CounterProvider();
+  // //CounterProvider _counterProvider = new CounterProvider();
+  // void initState() {
+  //
+  //   _counterProvider.addListener(() {
+  //     //数值改变的监听
+  //     print('YM------>新数值:${ _counterProvider.user}');
+  //   });
+  // }
+  // void dispose() {
+  //
+  //   _counterProvider.dispose();//移除监听
+  //   print('YM------>新数值:${ _counterProvider.user}');
+  // }
   /**
    * load data from sharedPre
    */
@@ -132,3 +145,6 @@ class _FavoriteWidgetState extends State<FavoriteWidget> {
         });
   }
 }
+
+
+

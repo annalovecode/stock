@@ -5,45 +5,20 @@ import 'package:stock/pages/detail_page.dart';
 import 'package:stock/pages/search_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../widgets/addToFavorite.dart';
-// class MyNotification extends Notification {
-//   MyNotification(this.msg);
-//   final String msg;
-// }
+import '../widgets/Stock.dart';
+
 class HomePage extends StatefulWidget{
   @override
-  RandomWordsState createState() => RandomWordsState();
+  HomePageState createState() => HomePageState();
   }
 
-  class RandomWordsState extends State<HomePage> {
-    //String _msg="";
+  class HomePageState extends State<HomePage> {
+
 
     final String formattedDate = DateFormat('MMMMd').format(DateTime.now());
-    List<User> user = <User>[];
+    List<Stock> stockList = <Stock>[];
     String key = 'stringValue';
-    // CounterProvider _counterProvider = new CounterProvider();
-    // @override
-    // void initState() {
-    //   super.initState();
-    //   _counterProvider.addListener(() {
-    //     //数值改变的监听
-    //     print('YM------>新数值:${ _counterProvider.user}');
-    //   });
-    // }
-    // @override
-    // void dispose() {
-    //   super.dispose();
-    //   _counterProvider.dispose();//移除监听
-    //   print('YM------>新数值:${ _counterProvider.user}');
-    // }
 
-    //String searchOne="";
-    //SharedPreferences prefs = SharedPreferences.getInstance() as SharedPreferences;
-    // @override
-    // void initState(){
-    //   super.initState();
-    //   load();
-    // }
     /**
      * load the prev data
      */
@@ -51,7 +26,7 @@ class HomePage extends StatefulWidget{
     load() async {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       final String categoryStr = prefs.getString(key) ?? "";
-      user = User.decode(categoryStr);
+      stockList = Stock.decode(categoryStr);
     }
     /**
      * get string of user
@@ -62,9 +37,9 @@ class HomePage extends StatefulWidget{
       //Return String
       String stringValue = prefs.getString(key) ?? "";
      // print(stringValue);
-      user = User.decode(stringValue);
-      print(stringValue);
-      return user;
+      stockList = Stock.decode(stringValue);
+      //print(stringValue);
+      return stockList;
     }
     /**
      * remove a specific item
@@ -73,14 +48,14 @@ class HomePage extends StatefulWidget{
     remove(String a, String b) async {
     // load();
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      User item= User(a,b);
-      user.removeWhere((item) => item.name == a);
-      String a1=User.encode(user);
+      Stock item= Stock(a,b);
+      stockList.removeWhere((item) => item.name == a);
+      String a1=Stock.encode(stockList);
       if(a1.isEmpty) {
        //  loadingTag = "##loading##"; //表尾标记
          a1 = "";
-         user.clear() ;
-         print(user);
+         stockList.clear() ;
+         print(stockList);
       }
       prefs.setString(key,a1);
     }
@@ -97,31 +72,24 @@ class HomePage extends StatefulWidget{
                 IconButton(
                   icon: Icon(Icons.search),
                   onPressed: () async {
-               //    const finalResult ="";
                    showSearch(
                         context: context, delegate: ToDoSearchDelegate());
-
                       // This block runs when you have come back to the 1st Page from 2nd.
                       setState(() {
-
                         // Cal l setState to refresh the page.
                      //   searchOne=finalResult;
-
                       });
                     })
-
-
-
               ]
-
           ),
           body:
-
           _buildSuggestions()
       );
     }
 
-
+    /**
+     * build The Body of the Home page
+     */
     Widget _buildSuggestions() {
       getStringValuesSF();
       return (
@@ -187,15 +155,15 @@ class HomePage extends StatefulWidget{
           ]));
     }
 
-
+    /**
+     * build the dynamic listview
+     */
     Widget _containListView() {
-   //   String whatHappened;
-   //   load();
       setState(() {
         // Call setState to refresh the page.
       });
       return StatefulBuilder(builder: (context, setNewState) {
-      if(user.isEmpty){
+      if(stockList.isEmpty){
         return ListView(children: <Widget>[
         ListTile(
         // 主标题
@@ -221,16 +189,14 @@ class HomePage extends StatefulWidget{
                 indent: 10,
                 endIndent: 10,);
             },
-            itemCount: user.length,
+            itemCount: stockList.length,
             itemBuilder: (context, index) {
                 return Dismissible(
 
                 confirmDismiss: (direction) {
       return showDialog(
       context: context,
-
       builder: (context) {
-     //   barrierColor:Colors.black45;
       return AlertDialog(
         backgroundColor: Colors.grey[900],
       title: Text('Delete Confirmation',style: TextStyle(
@@ -274,7 +240,7 @@ class HomePage extends StatefulWidget{
                 },
                   // Each Dismissible must contain a Key. Keys allow Flutter to
                   // uniquely identify widgets.
-                    key: ObjectKey(user[index]),
+                    key: ObjectKey(stockList[index]),
                     direction: DismissDirection.endToStart,
                     background: Container(
                       color: Colors.red,
@@ -296,7 +262,7 @@ class HomePage extends StatefulWidget{
                         SnackBar(
                           backgroundColor: Colors.white,
                           content: Text(
-                            '${user[index].name} was removed from the watchlist ',
+                            '${stockList[index].name} was removed from the watchlist ',
                             textAlign: TextAlign.start,
                             style: TextStyle(
                               color: Colors.black,
@@ -305,20 +271,20 @@ class HomePage extends StatefulWidget{
                         ),
                       );
                       setState(() {
-                        remove(user[index].name,user[index].age);
+                        remove(stockList[index].name,stockList[index].CompanyName);
                       });
 
                     },
                      child: ListTile(
                   textColor: Colors.white,
-                  title: Text("${user[index].name}"),
-                  subtitle: Text("${user[index].age}"),
+                  title: Text("${stockList[index].name}"),
+                  subtitle: Text("${stockList[index].CompanyName}"),
                        onTap: () async {
-                         List<dynamic> a =await getDetail(symbol: user[index].name);
+                         List<dynamic> a =await getDetail(symbol: stockList[index].name);
                          // print(a.toString());
                          //  List lista = await a as List ;
                          //  print(a.toString());
-                         Future<List<dynamic>> b= getPrice(symbol: user[index].name);
+                         Future<List<dynamic>> b= getPrice(symbol: stockList[index].name);
                          List<dynamic> b1 =await b;
                          Navigator.push(
                              context,
@@ -334,18 +300,18 @@ class HomePage extends StatefulWidget{
 
 
   }
-
+/**
+ * listen to changes of SharedPreference
+ */
 class CounterProvider with ChangeNotifier {
-  List<User> user = <User>[];
+  List<Stock> stock = <Stock>[];
 
-  List<User> get value => user;
-  void change() {
-    load() async {
+  List<Stock> get value => stock;
+  void change()async {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       final String categoryStr = prefs.getString('stringValue') ?? "";
-      user = User.decode(categoryStr);
+      stock = Stock.decode(categoryStr);
       notifyListeners();
-    }
 
   }
 

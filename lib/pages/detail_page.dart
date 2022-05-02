@@ -1,16 +1,11 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:stock/pages/api_keys.dart';
-import 'package:stock/pages/search_page.dart';
-import 'package:http/http.dart' as http;
-import 'package:meta/meta.dart';
+
 import 'package:url_launcher/url_launcher.dart';
 
 import '../widgets/favoriteWidget.dart';
-import 'home_page.dart';
-// import 'dart:html' as html;
+
 
 class detail {
   String? country;
@@ -121,20 +116,10 @@ class DetailsPage extends StatefulWidget {
 
 class DetailPageState extends State<DetailsPage> {
 
-  //初始化内置属性,继承内置的父类，初始化函数必须这样的形式
-  //detailPage({required Key key,required this.goods_list}):super(key:key)
   List a = [];
- // Set<String> saved =Set<String>();
   List b = [];
 
   DetailPageState(this.a, this.b);
-//   bool _isFavorited=false;
-// callback() {
-//     setState(() {
-//       _isFavorited=true;
-//     });
-//   }
-
     @override
   Widget build(BuildContext context) {
     // print(a);
@@ -176,11 +161,7 @@ class DetailPageState extends State<DetailsPage> {
           flag = true;
           s = "+" + bchange.toString();
         }
-      // }
-      // else {
-      //   flag = false;
-      //   s = "+0";
-      // }
+
       return Scaffold(
           appBar: AppBar(
               title: const Text('Details'),

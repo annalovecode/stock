@@ -3,8 +3,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:stock/pages/detail_page.dart';
-import 'dart:io';
-
 import 'api_keys.dart';
 import 'home_page.dart';
 class ToDo {
@@ -69,23 +67,30 @@ class Result {
 
 class ToDoSearchDelegate extends SearchDelegate<String> {
 
-  //Set<String> saved =Set<String>();
 
 
   ToDoSearchDelegate();
   CounterProvider _counterProvider = new CounterProvider();
+
+  /**
+   * init state
+   */
   void initState() {
 
     _counterProvider.addListener(() {
       //数值改变的监听
-      print('YM------>新数值:${ _counterProvider.user}');
+      print('YM------>${ _counterProvider.stock}');
     });
   }
   void dispose() {
 
     _counterProvider.dispose();//移除监听
-    print('YM------>新数值:${ _counterProvider.user}');
+   print('YM------>${ _counterProvider.stock}');
   }
+
+  /**
+   * themeData change
+   */
   @override
   ThemeData appBarTheme(BuildContext context) {
     return ThemeData(
@@ -121,15 +126,7 @@ class ToDoSearchDelegate extends SearchDelegate<String> {
          //  buildSuggestions(context);
            showSuggestions(context);
           },
-         //  onPressed: () {
-         //    if (query.isEmpty) {
-         //      close(context, "");
-         //      //Navigator.pop(context);
-         //    } else {
-         //      query = '';
-         //    // showSuggestions(context);
-         //    }
-         // },
+
         )
       ];
 
@@ -139,19 +136,11 @@ class ToDoSearchDelegate extends SearchDelegate<String> {
     return IconButton(
       icon: const Icon(Icons.arrow_back),
         onPressed: () {
-         // callback();
-         // close(context, query);
+          _counterProvider.change();
         Navigator.pop(context);
-
-        _counterProvider.change();
-        //  Navigator.of(context).pop("a");
-        //  Navigator.pop(context,controller.text ?? "");
 
         }
 
-     // onPressed: ()=>
-         // Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage())).then((value) => _getInitial());
-          //Navigator.of(context).push(MaterialPageRoute(builder: (_)=>HomePage()),)
 
     );
   }
@@ -164,7 +153,6 @@ class ToDoSearchDelegate extends SearchDelegate<String> {
         builder: (context, snapshot) {
           var data = snapshot.data;
           if (snapshot.hasData) {
-            // if (snapshot.connectionState == ConnectionState.done) {
             return ListView.builder(
                 itemBuilder: (context, index) {
                   var suggestion = data![index];
@@ -175,37 +163,25 @@ class ToDoSearchDelegate extends SearchDelegate<String> {
                         fontWeight: FontWeight.bold)),
                     onTap: () async {
                       suggestion=suggestion.trim();
-                    //  print(suggestion);
                       List<String> s1 = suggestion.split('|');
                       String symbol = s1.first;
-                   //  print(symbol);
+
                       List<dynamic> a =await getDetail(symbol: symbol);
-                    // print(a.toString());
-                     //  List lista = await a as List ;
-                   //  print(a.toString());
                       Future<List<dynamic>> b= getPrice(symbol: symbol);
                       List<dynamic> b1 =await b;
-
-
 
                        Navigator.push(
                            context,
                            MaterialPageRoute(
-// //            builder: (context) => new NewsWebPage(h5_url,'新闻详情')));
                                builder: (context) => DetailsPage(a,b1)));
-                      //  final detail = await showSearch<dynamic>(
-                      //    context: context,
-                      //
-                      // );
+
                     },
-                    //  query = suggestion;
-                    //showResults(context);
-                    //  },
+
                   );
                 },
                 itemCount: snapshot.data?.length);
 
-            //    }
+
           }
           else if (snapshot.hasError) {
             return Column(
@@ -245,6 +221,9 @@ class ToDoSearchDelegate extends SearchDelegate<String> {
   }
 
 }
+/**
+ * get data of the stock from API
+ */
 Future<List<String>> _search({String?query}) async {
     List<String> res=[];
     if(query==null) return res;
@@ -256,13 +235,10 @@ Future<List<String>> _search({String?query}) async {
 };
     final uri = Uri.https(authority, path, queryParameters);
     final result= await http.get(uri);
-   // print(result.statusCode);
     try{
       if(result.statusCode==200){
         final body = json.decode(result.body);
-      //  print(body);
         final k=body['result'];
-       // print(k);
         return res= k.map<String>((json) {
           final symbol = json['symbol'];
           final desc = json['description'];
@@ -279,6 +255,10 @@ Future<List<String>> _search({String?query}) async {
 
     return res;
   }
+
+/**
+ * get Detail of the stock
+ */
 Future<List<dynamic>> getDetail({required String symbol}) async {
   List<dynamic> res = [];
   const authority = 'finnhub.io';
@@ -288,7 +268,6 @@ Future<List<dynamic>> getDetail({required String symbol}) async {
     'token': kFinnhubKey,
   };
   final uri = Uri.https(authority, path, queryParameters);
-  print(uri);
   final result = await http.get(uri);
   try {
     if (result.statusCode == 200) {
@@ -305,6 +284,10 @@ Future<List<dynamic>> getDetail({required String symbol}) async {
 
   return res;
 }
+
+/**
+ * get current price change of a stock
+ */
 Future<List<dynamic>> getPrice({required String symbol}) async {
   List<dynamic> res = [];
   const authority = 'finnhub.io';
@@ -313,9 +296,8 @@ Future<List<dynamic>> getPrice({required String symbol}) async {
     'symbol': symbol.trim(),
     'token': kFinnhubKey,
   };
- // print(queryParameters);
   final uri = Uri.https(authority, path, queryParameters);
- // print(uri);
+
   final result = await http.get(uri);
   try {
     if (result.statusCode == 200) {
@@ -325,10 +307,10 @@ Future<List<dynamic>> getPrice({required String symbol}) async {
     }
     else {
       print('api err');
-     // print(res);
+
       res=[];
       if(res.isEmpty){
-       // print("ue");
+
       }
 
     }

@@ -98,6 +98,7 @@ class HomePage extends StatefulWidget{
 
           ),
           body:
+
           _buildSuggestions()
       );
     }
@@ -209,13 +210,21 @@ class HomePage extends StatefulWidget{
                 confirmDismiss: (direction) {
       return showDialog(
       context: context,
-      builder: (context) {
 
-      return CupertinoAlertDialog(
-      title: Text('Delete Confirmation'),
-      content: Text('Are you sure you want to delete this item ?'),
+      builder: (context) {
+     //   barrierColor:Colors.black45;
+      return AlertDialog(
+        backgroundColor: Colors.grey[900],
+      title: Text('Delete Confirmation',style: TextStyle(
+          color: Colors.white,
+          fontSize: 20,
+          )),
+      content: Text('Are you sure you want to delete this item ?',style: TextStyle(
+          color: Colors.white,
+          fontSize: 18,
+        )),
       actions: <Widget>[
-      FlatButton(
+      TextButton(
       onPressed: () {
       // Navigator.pop(context, false);
       Navigator.of(
@@ -223,16 +232,22 @@ class HomePage extends StatefulWidget{
       // rootNavigator: true,
       ).pop(true);
       },
-      child: Text('Delete'),
+      child: Text('Delete',style: TextStyle(
+        color: Colors.white,
+        fontSize: 18,
+       )),
       ),
-      FlatButton(
+      TextButton(
       onPressed: () {
       // Navigator.pop(context, true);
       Navigator.of(
       context,
       // rootNavigator: true,
       ).pop(false);
-      },  child: Text('Cancel'),
+      },  child: Text('   Cancel',style: TextStyle(
+        color: Colors.white,
+        fontSize: 18,
+        )),
       ),
       ],
       );

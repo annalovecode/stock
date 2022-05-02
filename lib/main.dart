@@ -17,6 +17,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         title: 'stock',
         theme: ThemeData(
+          dialogBackgroundColor: Colors.black,
           primarySwatch: Colors.purple,
           primaryColor: Colors.black,
           textTheme: TextTheme(

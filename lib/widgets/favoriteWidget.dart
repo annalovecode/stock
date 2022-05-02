@@ -24,11 +24,11 @@ class _FavoriteWidgetState extends State<FavoriteWidget> {
   List<User> category = <User>[];
   String key = 'stringValue';
   bool _isFavorited=false;
-  // @override
-  // void initState(){
-  //   super.initState();
-  //   load();
-  // }
+  @override
+  void initState(){
+    super.initState();
+    load();
+  }
  load() async {
   // bool _isFavorited=true;
    //print(a.toString());
@@ -110,12 +110,14 @@ save() async {
 
   @override
   Widget build(BuildContext context) {
+    //initState();
+     load();
      print(a.toString());
      String paira=a.toString();
      String pairb=b.toString();
      print(paira);
-     load();
-    print(_isFavorited);
+    //  load();
+    // print(_isFavorited);
      return Row(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[

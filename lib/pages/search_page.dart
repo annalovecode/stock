@@ -127,8 +127,8 @@ class ToDoSearchDelegate extends SearchDelegate<String> {
       icon: const Icon(Icons.arrow_back),
         onPressed: () {
          // callback();
-          close(context, query);
-          //Navigator.pop(context);
+         // close(context, query);
+          Navigator.pop(context);
 
         }
 
